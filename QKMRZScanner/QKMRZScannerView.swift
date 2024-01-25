@@ -40,7 +40,7 @@ public class QKMRZScannerView: UIView {
     public weak var delegate: QKMRZScannerViewDelegate?
 
     public var cutoutRect: CGRect {
-        return cutoutView.cutoutRect
+        return cutoutView.cutoutRect ?? .zero
     }
 
     // MARK: Initializers
