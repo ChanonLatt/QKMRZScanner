@@ -7,19 +7,19 @@
 
 import UIKit
 
-class QKCutoutView: UIView {
-    fileprivate(set) var cutoutRect: CGRect!
+open class QKCutoutView: UIView {
+    fileprivate(set) var cutoutRect: CGRect?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.black.withAlphaComponent(0.45)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
 
         // Orientation or the view's size could change
@@ -48,6 +48,9 @@ class QKCutoutView: UIView {
     }
 
     fileprivate func addBorderAroundCutout() {
+        guard let cutoutRect else {
+            return
+        }
         let maskLayer = CAShapeLayer()
         let path = CGMutablePath()
         let cornerRadius = CGFloat(3)
