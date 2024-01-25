@@ -19,7 +19,7 @@ public protocol QKMRZScannerViewDelegate: AnyObject {
 
 // MARK: - QKMRZScannerView
 @IBDesignable
-public class QKMRZScannerView: UIView {
+open class QKMRZScannerView: UIView {
     fileprivate let tesseract = SwiftyTesseract(language: .custom("ocrb"), dataSource: Bundle(for: QKMRZScannerView.self), engineMode: .tesseractOnly)
     fileprivate let mrzParser = QKMRZParser(ocrCorrection: true)
     fileprivate let captureSession = AVCaptureSession()
@@ -39,8 +39,12 @@ public class QKMRZScannerView: UIView {
     public var vibrateOnResult = true
     public weak var delegate: QKMRZScannerViewDelegate?
 
-    public var cutoutRect: CGRect {
+    open var cutoutRect: CGRect {
         return cutoutView.cutoutRect ?? .zero
+    }
+    
+    open var showCutoutView: Bool {
+        true
     }
 
     // MARK: Initializers
@@ -176,6 +180,8 @@ public class QKMRZScannerView: UIView {
             cutoutView.leftAnchor.constraint(equalTo: leftAnchor),
             cutoutView.rightAnchor.constraint(equalTo: rightAnchor)
         ])
+        
+        cutoutView.alpha = showCutoutView ? 1 : 0
     }
     
     fileprivate func initCaptureSession() {
