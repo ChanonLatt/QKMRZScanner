@@ -26,7 +26,8 @@ open class QKMRZScannerView: UIView {
     fileprivate let videoOutput = AVCaptureVideoDataOutput()
     fileprivate let videoPreviewLayer = AVCaptureVideoPreviewLayer()
     fileprivate let notificationFeedback = UINotificationFeedbackGenerator()
-    fileprivate let cutoutView = QKCutoutView()
+    fileprivate lazy var cutoutView = QKCutoutView(customWidthPercent: customCutoutViewWidthPercent,
+                                                   customTopOffset: customCutoutViewTopOffset)
     fileprivate var isScanningPaused = false
     fileprivate var observer: NSKeyValueObservation?
 
@@ -43,8 +44,17 @@ open class QKMRZScannerView: UIView {
         return cutoutView.cutoutRect ?? .zero
     }
     
+    // MARK: - Overridable l
     open var showCutoutView: Bool {
         true
+    }
+    
+    open var customCutoutViewWidthPercent: CGFloat {
+        0.9
+    }
+    
+    open var customCutoutViewTopOffset: CGFloat? {
+        nil
     }
 
     // MARK: Initializers

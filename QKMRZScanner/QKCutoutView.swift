@@ -10,6 +10,9 @@ import UIKit
 open class QKCutoutView: UIView {
     fileprivate(set) var cutoutRect: CGRect?
     
+    private var customWidthPercent: CGFloat = 0.9
+    private var customTopOffset: CGFloat?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.black.withAlphaComponent(0.45)
@@ -17,6 +20,13 @@ open class QKCutoutView: UIView {
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    convenience init(customWidthPercent: CGFloat = 0.9,
+                     customTopOffset: CGFloat? = nil) {
+        self.init(frame: .zero)
+        self.customWidthPercent = customWidthPercent
+        self.customTopOffset = customTopOffset
     }
 
     open override func layoutSubviews() {
@@ -33,7 +43,7 @@ open class QKCutoutView: UIView {
         let (width, height): (CGFloat, CGFloat)
 
         if bounds.height > bounds.width {
-            width = (bounds.width * 0.9) // Fill 90% of the width
+            width = (bounds.width * customWidthPercent) // Fill 90% of the width
             height = (width / documentFrameRatio)
         }
         else {
@@ -44,7 +54,7 @@ open class QKCutoutView: UIView {
         let topOffset = (bounds.height - height) / 2
         let leftOffset = (bounds.width - width) / 2
 
-        cutoutRect = CGRect(x: leftOffset, y: topOffset, width: width, height: height)
+        cutoutRect = CGRect(x: leftOffset, y: customTopOffset ?? topOffset, width: width, height: height)
     }
 
     fileprivate func addBorderAroundCutout() {
